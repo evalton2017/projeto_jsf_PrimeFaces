@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+ 	  xmlns:f="http://xmlns.jcp.org/jsf/core"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.org/ui">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<script  src="https://code.jquery.com/jquery-3.4.1.js" ></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+<title>Home</title>
+</head>
+
+<h:body>
+
+<div class="container">
+	<br/>
+	<h:link value="Pagina JSF" outcome="index.xhtml"/>
+	<br/>
+	<h:link value="Pagina PrimeFaces" outcome="primeFaces.xhtml"/>
+	<br/>
+	<h:outputLabel >Cadastro - PrimeFaces </h:outputLabel>
+	<br/><br/><br/>
+	
+	
+	<h:form>
+		<h:messages showDetail="true" showSummary="false" style="color:red"/>
+	
+		<h:panelGrid columns="2">
+		
+			<h:outputLabel >Id</h:outputLabel>
+			<h:inputText value="#{usuarioPessoaBean.usuarioPessoa.id}" readonly="true" />
+			
+			<h:outputLabel >Nome:</h:outputLabel>
+			<p:inputText value="#{usuarioPessoaBean.usuarioPessoa.nome}" />
+			
+			<h:outputLabel >Sobrenome:</h:outputLabel>
+			<p:inputText value="#{usuarioPessoaBean.usuarioPessoa.sobreNome}" />
+			
+			<h:outputLabel >Email:</h:outputLabel>
+			<h:inputText value="#{usuarioPessoaBean.usuarioPessoa.email}" />
+			
+			<h:outputLabel >Login:</h:outputLabel>
+			<h:inputText value="#{usuarioPessoaBean.usuarioPessoa.login}" />
+			
+			<h:outputLabel >Senha:</h:outputLabel>
+			<h:inputSecret value="#{usuarioPessoaBean.usuarioPessoa.senha}"/>
+			
+			<h:commandButton action="#{usuarioPessoaBean.salvar}" value="Salvar" />
+			<h:commandButton action="#{usuarioPessoaBean.novo}" value="Novo" />	
+			
+		</h:panelGrid>
+	
+			<h:dataTable value="#{usuarioPessoaBean.pessoas}" var="user" cellpadding="10" border="1">
+				<f:facet name="header">Lista de Usuarios</f:facet>
+				<h:column>
+					<f:facet name="header">ID</f:facet>
+					<h:outputText value="#{user.id}" />
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Nome</f:facet>
+					<h:outputText value="#{user.nome}" />
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Sobrenome</f:facet>
+					<h:outputText value="#{user.sobreNome}" />
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Email</f:facet>
+					<h:outputText value="#{user.email}" />
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Login</f:facet>
+					<h:outputText value="#{user.login}" />
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header">Editar</f:facet>
+					<h:commandLink value="Editar" immediate="true">
+						<f:setPropertyActionListener value="#{user}" target="#{usuarioPessoaBean.usuarioPessoa}" />
+					</h:commandLink>
+				</h:column>
+				
+					<h:column>
+					<f:facet name="header">Delete</f:facet>
+					<h:commandLink value="Remover" action="#{usuarioPessoaBean.remover}">
+						<f:setPropertyActionListener value="#{user}" target="#{usuarioPessoaBean.usuarioPessoa}" />
+					</h:commandLink>
+				</h:column>
+			
+			</h:dataTable>
+	
+	</h:form>
+	
+	<br><br></br></br>
+	
+	<h:form>
+	
+	<h:panelGrid columns="3" > 
+		<select multiple="multiple" id="atividadeLista" name="atividadeLista" style="width:220px; height:250px;">
+			<option value="12" id="12" onclick="add(this)">Canil</option>
+			<option value="24" id="24" onclick="add(this)">Treinamento tático</option>
+			<option value="35" id="35" onclick="add(this)">Tiros</option>
+			<option value="42" id="42" onclick="add(this)">Saude e sobrevivencia</option>
+			<option value="29" id="29" onclick="add(this)">Etica</option>
+			<option value="28" id="28" onclick="add(this)">Direitos humanos</option>
+			<option value="27" id="27" onclick="add(this)">Trabalho em equipe</option>
+		</select>
+		
+		<a href="#" class="btn btn-primary" value="" onclick="adicionar(this.value)">Adicionar</a>
+		<a href="#" class="btn btn-primary" onclick="remover(this.value)">Remover</a>
+		
+		<select multiple="multiple" id="atividadeModulo" name="atividadeModulo" style="width:220px; height:250px;">
+			<option></option>
+		</select>
+		
+		<h:commandButton action="#{usuarioPessoaBean.teste}" value="Testar" />
+	</h:panelGrid>
+	</h:form>
+	
+</div>		
+	<script>
+		var option="";
+		function add(valor){
+			option=valor;
+			$("#add").val(valor)
+			//alert($("#add").val());
+			console.log(valor)
+		}
+
+		function adicionar(id){
+			console.log(option);
+			$("#atividadeModulo").append(option);
+
+		}
+
+		function remover(id){
+			console.log(option);
+			$("#atividadeLista").append(option);
+
+		}
+	
+	</script>
+	
+</h:body>
+
+
+</html>
