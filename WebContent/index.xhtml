@@ -44,7 +44,7 @@
 					required="true" requiredMessage="Informe o login" />
 
 				<p:outputLabel>Salario:</p:outputLabel>
-				<p:inputText value="#{usuarioPessoaBean.usuarioPessoa.salario}"
+				<p:inputNumber value="#{usuarioPessoaBean.usuarioPessoa.salario}"
 					required="true" requiredMessage="Informe o salario" />
 
 				<p:outputLabel>Senha:</p:outputLabel>
@@ -136,9 +136,9 @@
 					<h:outputText value="#{user.salario}" />
 				</p:column>
 
-				<p:column style="max-width: 50px; min-width: 50px;">
+				<p:column >
 					<f:facet name="header">Editar</f:facet>
-					<h:commandLink immediate="true" id="botaoeditar">
+					<h:commandLink immediate="true" id="botaoeditar" style="max-width: 50px; min-width: 50px;">
 						<f:setPropertyActionListener value="#{user}"
 							target="#{usuarioPessoaBean.usuarioPessoa}" />
 						<f:ajax execute="botaoeditar"

@@ -29,10 +29,10 @@ public class DaoUsuarioPessoa extends DaoGeneric<UsuarioPessoa>{
 	}
 	
 	public void removerUsuario(UsuarioPessoa pessoa) throws Exception {
-		String sqlTelefone = "delete from Telefone where usuario usuarioPessoa = "+pessoa.getId();
+		String sqlTelefone = "delete from Telefone where usuariopessoa_id = "+pessoa.getId();
 		entityManager.createNativeQuery(sqlTelefone).executeUpdate();
 		
-		sqlTelefone = "delete from Email where usuario usuarioPessoa = "+pessoa.getId();
+		sqlTelefone = "delete from Email where usuariopessoa_id = "+pessoa.getId();
 		entityManager.createNativeQuery(sqlTelefone).executeUpdate();
 		
 		entityManager.getTransaction().commit();
