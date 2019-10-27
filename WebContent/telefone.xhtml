@@ -32,11 +32,16 @@
 			        <p:inputText value="#{telefonePessoaBean.pessoa.nome}" />
 
 					<p:outputLabel>Numero:</p:outputLabel>
-					<p:inputText value="#{telefonePessoaBean.telefone.numero}" />
+					<p:inputMask mask="(99)99999-9999" value="#{telefonePessoaBean.telefone.numero}"> </p:inputMask>
 
 					<p:outputLabel>Tipo:</p:outputLabel>
-					<p:inputText value="#{telefonePessoaBean.telefone.tipo}" />
-					
+					<p:selectOneMenu value="#{telefonePessoaBean.telefone.tipo}" required="true" requiredMessage="Tipo Obrigatorio">
+						<f:selectItem itemLabel="Selecione" itemValue="" />
+			            <f:selectItem itemLabel="Residencial" itemValue="Residencial" />
+			            <f:selectItem itemLabel="Comercial" itemValue="Comercial" />
+			            <f:selectItem itemLabel="Celular" itemValue="Celular" />
+					</p:selectOneMenu>
+							
 					<p:commandButton value="Salvar"	action="#{telefonePessoaBean.salvar()}" ajax="false" />			
 
 				</p:panelGrid>
@@ -71,8 +76,7 @@
 						</p:commandButton>
 									
                 	</p:column>
-								
-
+							
 				</p:dataTable>
 			</h:form>
 			
