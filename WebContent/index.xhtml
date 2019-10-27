@@ -103,22 +103,16 @@
 		<br />
 		<br />
 		<h:form id="formUsuario">
-			<p:dataTable value="#{usuarioPessoaBean.pessoas}" var="user"
-				id="tabela" cellpadding="10" border="1">
+			<p:dataTable value="#{usuarioPessoaBean.pessoas}" var="user" rows="5" paginator="true" lazy="true"
+				paginatorPosition="bottom" id="tabela">
 				<f:facet name="header">Lista de Usuarios</f:facet>
 				<p:column>
 					<f:facet name="header">ID</f:facet>
 					<h:outputText value="#{user.id}" />
 				</p:column>
 
-				<p:column>
-					<f:facet name="header">Nome</f:facet>
+				<p:column width="400" headerText="Nome">
 					<h:outputText value="#{user.nome}" />
-				</p:column>
-
-				<p:column>
-					<f:facet name="header">Sobrenome</f:facet>
-					<h:outputText value="#{user.sobreNome}" />
 				</p:column>
 
 				<p:column>
@@ -136,7 +130,7 @@
 					<h:outputText value="#{user.salario}" />
 				</p:column>
 
-				<p:column >
+				<p:column width="50">
 					<f:facet name="header">Editar</f:facet>
 					<h:commandLink immediate="true" id="botaoeditar" style="max-width: 50px; min-width: 50px;">
 						<f:setPropertyActionListener value="#{user}"
@@ -149,7 +143,7 @@
 				</p:column>
 
 
-				<p:column>
+				<p:column width="50">
 					<f:facet name="header">Remover</f:facet>
 					<p:commandButton icon="ui-icon-trash"
 						actionListener="#{usuarioPessoaBean.remover}"
@@ -158,7 +152,7 @@
 					</p:commandButton>
 				</p:column>
 
-				<p:column>
+				<p:column width="50">
 					<f:facet name="header" icon="fa fa-phone">Telefones</f:facet>
 					<p:commandLink action="telefone.xhtml" id="fone">
 						<f:param name="idUser" value="#{user.id}" />
@@ -166,41 +160,48 @@
 							width="25" height="25"></h:graphicImage>
 					</p:commandLink>
 				</p:column>
-				<p:column>
 				
-				<f:facet name="header" >Email</f:facet>
-					<p:commandLink update=":formUsuario:dialogEmail" oncomplete="PF('dialogEmail').show()">
-						<f:setPropertyActionListener value="${user}" target="#{usuarioPessoaBean.usuarioPessoa}"/>
-						<h:graphicImage value="resources/icon/email.png" title="telefone"
-								width="25" height="25"></h:graphicImage>
-					</p:commandLink>
+				<p:column width="50">
+					  <center>
+						<f:facet name="header"  >Email</f:facet>
+						<p:commandLink update=":formUsuario:dialogEmail" oncomplete="PF('dialogEmail').show()">
+							<f:setPropertyActionListener value="${user}" target="#{usuarioPessoaBean.usuarioPessoa}"/>
+							<h:graphicImage value="resources/icon/email.png" title="telefone"
+									width="25" height="25"></h:graphicImage>
+						</p:commandLink>
+					</center>
 				</p:column>
 				
+				
+				
 			</p:dataTable>
+			
 
 			<p:dialog header="E-mails" id="dialogEmail" widgetVar="dialogEmail"
 				position="center" modal="true" width="560px" resizable="false">
 				
 				<h:panelGrid columns="3">
 					<h:outputLabel value="E-mail" />
-					<p:inputText value="#{usuarioPessoaBean.email.email}"></p:inputText>
+					<p:inputText value="#{usuarioPessoaBean.email.email}" width="300"></p:inputText>
 					<p:commandButton value="Adicionar" actionListener="#{usuarioPessoaBean.addEmail}" update="table_email"></p:commandButton>
 				</h:panelGrid>
 				
 				<p:dataTable value="#{usuarioPessoaBean.usuarioPessoa.email}" var="email" id="table_email">
-					<p:column headerText="ID">
+					<p:column headerText="ID" width="20">
 						<h:outputLabel value="#{email.id}" />
 					</p:column>
-					<p:column headerText="Email">
+					<p:column headerText="Email" width="200">
 						<h:outputLabel value="#{email.email}" />
 					</p:column>
 					
-					<p:column headerText="Remover">
+					<p:column headerText="Remover" width="50">
+						<center>
 						<p:commandLink id="removerEmail" actionListener="#{usuarioPessoaBean.removerEmail}" update="table_email">
 							<f:param name="codigoEmail" value="#{email.id}"/>
 							<h:graphicImage value="resources/icon/remove.png" title="telefone"
 									width="25" height="25"></h:graphicImage>
 						</p:commandLink>
+						</center>
 					</p:column>						
 				</p:dataTable>
 				

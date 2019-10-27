@@ -47,6 +47,7 @@ public class UsuarioPessoaBean {
 		
 		for(UsuarioPessoa usuarioPessoa: pessoas) {	
 			userSalario.set(usuarioPessoa.getNome(), usuarioPessoa.getSalario());
+			
 		}
 		barCharModel.addSeries(userSalario);
 		userSalario.setLabel("Usuarios");
@@ -58,6 +59,7 @@ public class UsuarioPessoaBean {
 			//FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Dados cadastrados com sucesso", null));
 			getPessoas();
 			usuarioPessoa=new UsuarioPessoa();
+			init();
 			Messages.addGlobalInfo("Usuario cadastrado com sucesso.");	
 		} catch (RuntimeException erro) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar salvar o Usuario");
@@ -111,6 +113,7 @@ public class UsuarioPessoaBean {
 			usuarioPessoa = (UsuarioPessoa) evento.getComponent().getAttributes().get("user");
 			daoPessoa.removerUsuario(usuarioPessoa);
 			usuarioPessoa = new UsuarioPessoa();
+			init();
 			Messages.addGlobalWarn("Usuario excluído.");			
 		} catch (RuntimeException erro) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar excluir");

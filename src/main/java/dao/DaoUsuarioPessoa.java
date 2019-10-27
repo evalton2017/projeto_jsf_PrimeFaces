@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.transaction.Transactional;
 
 import hibernate.br.HibernateUtil;
 import model.UsuarioPessoa;
@@ -28,14 +29,20 @@ public class DaoUsuarioPessoa extends DaoGeneric<UsuarioPessoa>{
 		return lista;
 	}
 	
+	@Transactional
 	public void removerUsuario(UsuarioPessoa pessoa) throws Exception {
-		String sqlTelefone = "delete from Telefone where usuariopessoa_id = "+pessoa.getId();
+
+		
+		EntityTransaction transaction = entityManager.getTransaction();
+		transaction.begin();
+				
+		String sqlTelefone = "delete from Email where usuarioPessoa.id = " +pessoa.getId();
+		entityManager.createQuery(sqlTelefone).executeUpdate();
+		
+		sqlTelefone = "delete from Telefone where usuariopessoa_id = " +pessoa.getId();
 		entityManager.createNativeQuery(sqlTelefone).executeUpdate();
 		
-		sqlTelefone = "delete from Email where usuariopessoa_id = "+pessoa.getId();
-		entityManager.createNativeQuery(sqlTelefone).executeUpdate();
-		
-		entityManager.getTransaction().commit();
+		transaction.commit();
 		
 		super.deleteByid(pessoa);
 	}
