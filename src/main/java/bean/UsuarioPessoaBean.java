@@ -1,12 +1,12 @@
 package bean;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -15,8 +15,13 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.DatatypeConverter;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.omnifaces.util.Messages;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.ChartSeries;
 
@@ -24,6 +29,7 @@ import com.google.gson.Gson;
 
 import dao.DaoEmail;
 import dao.DaoUsuarioPessoa;
+import dataTableLazy.PesquisaUsuario;
 import model.Email;
 import model.UsuarioPessoa;
 
@@ -33,29 +39,36 @@ public class UsuarioPessoaBean {
 	
 	private UsuarioPessoa usuarioPessoa = new UsuarioPessoa();
 	private DaoUsuarioPessoa daoPessoa = new DaoUsuarioPessoa();
-	private List<UsuarioPessoa> pessoas = new ArrayList<>();
+	private PesquisaUsuario<UsuarioPessoa> pessoas = new PesquisaUsuario<UsuarioPessoa>();
+	//private List<UsuarioPessoa> pessoas = new ArrayList<>();
 	private BarChartModel barCharModel = new BarChartModel();
 	private Email email = new Email();
 	private DaoEmail daoEmail = new DaoEmail();
-	
+	private String pesquisa;
 	
 	@PostConstruct
 	public void init() {
-		pessoas = daoPessoa.listar(UsuarioPessoa.class);
+		pessoas.load(0, 5,null, null, null);
+		montarGrafico();
+	//	pessoas = daoPessoa.listar(UsuarioPessoa.class);
 		
-		ChartSeries userSalario = new ChartSeries("Salario dos Usuarios");
-		
-		for(UsuarioPessoa usuarioPessoa: pessoas) {	
+	}
+	
+	public void montarGrafico() {
+		//barCharModel = new BarChartModel();
+		ChartSeries userSalario = new ChartSeries();
+		for(UsuarioPessoa usuarioPessoa: pessoas.list) {	
 			userSalario.set(usuarioPessoa.getNome(), usuarioPessoa.getSalario());
 			
 		}
 		barCharModel.addSeries(userSalario);
-		userSalario.setLabel("Usuarios");
+		userSalario.setLabel(" Grafico Usuarios");
 	}
 	
 	public void salvar() {
 		try{
-			daoPessoa.salvar(usuarioPessoa);
+			daoPessoa.salvarAtualiza(usuarioPessoa);
+			pessoas.list.add(usuarioPessoa);
 			//FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Dados cadastrados com sucesso", null));
 			getPessoas();
 			usuarioPessoa=new UsuarioPessoa();
@@ -66,6 +79,32 @@ public class UsuarioPessoaBean {
 			erro.printStackTrace();
 		}
 	
+	}
+	
+	//Metodo Upload
+	public void upload(FileUploadEvent image) {
+		String imagem = "data:image/png;base64," + DatatypeConverter.printBase64Binary(image.getFile().getContents());
+		usuarioPessoa.setFoto(imagem);
+	}
+	
+	//Metodo Download 
+	public void download() throws IOException {
+		Map<String,String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		String fileDownload = params.get("fileDownloadId");
+		
+		UsuarioPessoa pessoa = daoPessoa.buscar(Long.parseLong(fileDownload), UsuarioPessoa.class);
+		byte[] imagem = new Base64().decodeBase64(pessoa.getFoto().split("\\,")[1]);
+		
+		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+		
+		response.addHeader("Content-Disposition","attachment; fileName=download.png" );
+		response.setContentType("application/octet-stream");
+		
+		response.setContentLength(imagem.length);
+		response.getOutputStream().write(imagem);
+		
+		response.getOutputStream().flush();
+		FacesContext.getCurrentInstance().responseComplete();
 	}
 	
 	public String novo() {
@@ -103,9 +142,13 @@ public class UsuarioPessoaBean {
 			
 	}
 	
-	public List<UsuarioPessoa> getPessoas() {
-		pessoas = daoPessoa.listar(UsuarioPessoa.class);
+	public PesquisaUsuario<UsuarioPessoa> getPessoas() {
 		return pessoas;
+	}
+	
+	public void pesquisar() {
+		pessoas.pesquisa(pesquisa);
+		montarGrafico();
 	}
 	
 	public void remover(ActionEvent evento) throws Exception {		
@@ -184,6 +227,15 @@ public class UsuarioPessoaBean {
 	public void setEmail(Email email) {
 		this.email = email;
 	}
+
+	public String getPesquisa() {
+		return pesquisa;
+	}
+
+	public void setPesquisa(String pesquisa) {
+		this.pesquisa = pesquisa;
+	}
+	
 	
 	
 }

@@ -28,7 +28,7 @@
 		<h:form id="formCadastro">
 			<p:growl autoUpdate="true" showDetail="true" />
 
-			<p:panelGrid columns="6">
+			<p:panelGrid columns="4">
 
 				<p:outputLabel>Nome:</p:outputLabel>
 				<p:inputText value="#{usuarioPessoaBean.usuarioPessoa.nome}"
@@ -60,7 +60,7 @@
 						<f:selectItem itemLabel="feminino" itemValue="feminino" />
 					</p:selectOneRadio>
 				</h:panelGrid>
-
+								
 				<p:outputLabel>Cep:</p:outputLabel>
 				<p:inputText value="#{usuarioPessoaBean.usuarioPessoa.cep}"
 					id="cepuser">
@@ -88,9 +88,14 @@
 				<p:inputText value="#{usuarioPessoaBean.usuarioPessoa.unidade}"
 					id="unidade" />
 
-
+				<h:outputLabel value="Foto"/>
+				<p:fileUpload mode="advanced" label="Adicionar" auto="true" update="imagem" fileUploadListener="#{usuarioPessoaBean.upload}"/>
+			
+				<h:outputLabel value="Imagem" />
+				<h:graphicImage id="imagem"  value="#{usuarioPessoaBean.usuarioPessoa.foto}" width="200" height="200"/>
+								
 				<p:commandButton value="Salvar" action="#{usuarioPessoaBean.salvar}"
-					icon="ui-icon-add" ajax="false" />
+					ajax="false" />
 
 				<p:commandButton action="#{usuarioPessoaBean.novo}" value="Novo"
 					immediate="true" update="@form">
@@ -101,6 +106,15 @@
 
 		</h:form>
 		<br />
+		<h:form>
+			<p:panel header="Consultar Usuario">
+				<h:panelGrid columns="3">
+					<h:outputLabel value="Nome"/>
+					<p:inputText value="#{usuarioPessoaBean.pesquisa}"/>
+					<p:commandButton value="Buscar" actionListener="#{usuarioPessoaBean.pesquisar}" update="formUsuario"/>
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
 		<br />
 		<h:form id="formUsuario">
 			<p:dataTable value="#{usuarioPessoaBean.pessoas}" var="user" rows="5" paginator="true" lazy="true"
@@ -128,6 +142,12 @@
 				<p:column>
 					<f:facet name="header">Salario</f:facet>
 					<h:outputText value="#{user.salario}" />
+				</p:column>
+				
+				<p:column>
+					<h:commandLink value="Baixar" immediate="true" actionListener="#{usuarioPessoaBean.download}">
+						<f:param name="fileDownloadId" value="#{user.id}"/>
+					</h:commandLink>
 				</p:column>
 
 				<p:column width="50">
@@ -170,8 +190,7 @@
 									width="25" height="25"></h:graphicImage>
 						</p:commandLink>
 					</center>
-				</p:column>
-				
+				</p:column>			
 				
 				
 			</p:dataTable>

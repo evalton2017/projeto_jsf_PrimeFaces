@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import hibernate.br.HibernateUtil;
@@ -29,9 +30,14 @@ public class DaoUsuarioPessoa extends DaoGeneric<UsuarioPessoa>{
 		return lista;
 	}
 	
+	public List<UsuarioPessoa> pesquisar(String pesquisa){
+		Query query =  entityManager.createQuery("from UsuarioPessoa where nome like '%"+pesquisa+"%'");
+		
+		return query.getResultList();
+	}
+	
 	@Transactional
 	public void removerUsuario(UsuarioPessoa pessoa) throws Exception {
-
 		
 		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
