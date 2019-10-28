@@ -17,22 +17,19 @@
 		<h:panelGrid style="margin: 0 auto;">
 			<h:outputText styleClass="fa fa-lock fa-5x" />
 		</h:panelGrid>
-		<h:form id="formLogin">
-			<center>
-				<h:graphicImage value="resources/icon/login.png" title="add" width="100" height="100" ></h:graphicImage>
+		<h:form id="formLogin" style="margin-top:10%; margin-left:40%">
+				<h:graphicImage value="resources/icon/login.png" title="add" width="100" height="100" style="margin-top:2%; margin-left:10%" ></h:graphicImage>
 				<h:panelGrid columns="1">
                     Digite seu usuário e senha para ter acesso ao sistema:                    
                     <p:messages id="messagesLogin" />
                    
                     <h:outputLabel value="Login" />
-					<p:inputText placeholder="Digite o Usuário" value="#{loginBean.login}" size="40" required="true"	requiredMessage="Campo Login é obrigatório" />
+					<p:inputText placeholder="Digite o Usuário" value="#{usuarioPessoaBean.usuarioPessoa.login}" size="40" required="true"	requiredMessage="Campo Login é obrigatório" />
 					 <h:outputLabel value="Senha" />
-					 <p:password placeholder="Digite a Senha" value="#{loginBean.senha}" size="40" required="true" requiredMessage="Campo Senha é obrigatório" />
+					 <p:password placeholder="Digite a Senha" value="#{usuarioPessoaBean.usuarioPessoa.senha}" size="40" required="true" requiredMessage="Campo Senha é obrigatório" />
 					 
-					<p:commandButton value="Acessar" action="#{loginBean.logIn}" update="messagesLogin" width="200"/>
+					<p:commandButton value="Acessar" action="#{usuarioPessoaBean.logado}" update="messagesLogin" width="200"/>
 				</h:panelGrid>
-
-			</center>
 
 		</h:form>
 	</p:dialog>

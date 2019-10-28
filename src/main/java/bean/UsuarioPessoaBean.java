@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -31,6 +32,7 @@ import dao.DaoUsuarioPessoa;
 import dataTableLazy.PesquisaUsuario;
 import model.Email;
 import model.UsuarioPessoa;
+import repository.DaoPessoa;
 
 @ManagedBean(name="usuarioPessoaBean")
 @ViewScoped
@@ -44,6 +46,7 @@ public class UsuarioPessoaBean {
 	private Email email = new Email();
 	private DaoEmail daoEmail = new DaoEmail();
 	private String pesquisa;
+	private DaoPessoa daoRep = new DaoPessoa();
 	
 	@PostConstruct
 	public void init() {
@@ -78,6 +81,24 @@ public class UsuarioPessoaBean {
 			erro.printStackTrace();
 		}
 	
+	}
+	
+	
+	//Autenticação
+	public String logado() {
+		
+		UsuarioPessoa user = daoRep.ConsultarUsuario(usuarioPessoa.getLogin(), usuarioPessoa.getSenha());
+		
+		if(user != null) {
+			FacesContext context = FacesContext.getCurrentInstance();
+			ExternalContext externalContext = context.getExternalContext();
+			externalContext.getSessionMap().put("usuarioLogado", user);
+			return "index.xhtml"; 
+		}else {
+			return "login.xhtml";
+		}
+		
+		
 	}
 	
 	//Metodo Upload
