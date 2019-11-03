@@ -1,7 +1,6 @@
 package repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 
 import hibernate.br.HibernateUtil;
 import model.UsuarioPessoa;
@@ -12,17 +11,16 @@ public class DaoPessoa implements IDaoPessoa{
 
 	@Override
 	public UsuarioPessoa ConsultarUsuario(String login, String senha) {
-		
-		UsuarioPessoa pessoa = null;
-		
-		EntityTransaction transaction = entityManager.getTransaction();
-		transaction.begin();
-		
-		pessoa = (UsuarioPessoa) entityManager.createQuery("From U from UsuarioPessoa u where u.login = '"+login+"' and u.senha = '" +senha+ "'").getSingleResult();
+		UsuarioPessoa pessoa = null;	
+		try {				
+			entityManager.getTransaction().begin();
+			pessoa = (UsuarioPessoa) entityManager.createQuery("FROM UsuarioPessoa where login = '"+login+"' and senha = '" +senha+ "'").getSingleResult();
+			entityManager.getTransaction().commit();
+			entityManager.close();
 			
-		transaction.commit();
-		entityManager.close();
-		
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		return pessoa;
 	}
 

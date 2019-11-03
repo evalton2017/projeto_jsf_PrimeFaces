@@ -5,15 +5,20 @@
 	version="3.0">
 	<display-name>hibernate</display-name>
 	<welcome-file-list>
-		<welcome-file>index.xhtml</welcome-file>
+		<welcome-file>login.xhtml</welcome-file>
 	</welcome-file-list>
+	
+	 <!-- Tema do Prime Faces -->
+	<context-param>  
+    	<param-name>primefaces.THEME</param-name>  
+    	<param-value>hot-sneaks</param-value> 
+	</context-param> 
 
 	<filter>
 		<filter-name>Filter</filter-name>
 		<filter-class>filter.FilterAutenticacao</filter-class>
 	</filter>
-
-
+	
 	<filter-mapping>
 		<filter-name>Filter</filter-name>
 		<url-pattern>*.xhtml</url-pattern>
@@ -24,6 +29,7 @@
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>

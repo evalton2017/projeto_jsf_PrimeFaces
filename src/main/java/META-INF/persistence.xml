@@ -11,22 +11,22 @@
 		<class>model.Email</class>
 
 		<properties>
-			<!-- Conexao com o banco -->
 			<property name="javax.persistence.jdbc.driver"
-				value="org.postgresql.Driver" /> <!-- DB Driver -->
+				value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url"
-				value="jdbc:postgresql://localhost/hibernate" /> <!-- BD Mane -->
-			<property name="javax.persistence.jdbc.user"
-				value="postgres" /> <!-- DB User -->
+				value="jdbc:mysql://localhost:3306/hibernate" />
+			<property name="javax.persistence.jdbc.user" value="root" />
 			<property name="javax.persistence.jdbc.password"
-				value="123456" /> <!-- DB Password -->
+				value="123456" />
 
+			<!-- propriedades do hibernate -->
 			<property name="hibernate.dialect"
-				value="org.hibernate.dialect.PostgreSQLDialect" /> <!-- DB Dialect -->
-			<property name="hibernate.hbm2ddl.auto" value="update" /> <!-- create / create-drop / update -->
+				value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
 
-			<property name="hibernate.show_sql" value="true" /> <!-- Show SQL in console -->
-			<property name="hibernate.format_sql" value="true" /> <!-- Show SQL formatted -->
+			<!-- atualiza o banco, gera as tabelas se for preciso -->
+			<property name="hibernate.hbm2ddl.auto" value="update" />
 		</properties>
 
 	</persistence-unit>

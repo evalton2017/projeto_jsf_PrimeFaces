@@ -215,13 +215,15 @@ public class UsuarioPessoa {
 		return true;
 	}
 
-
 	@Override
 	public String toString() {
-		return "UsuarioPessoa [id=" + id + ", nome=" + nome + ", sobreNome=" + sobreNome
-				+ ", login=" + login + ", senha=" + senha + "]";
+		return "UsuarioPessoa [id=" + id + ", nome=" + nome + ", sobreNome=" + sobreNome + ", login=" + login
+				+ ", senha=" + senha + ", sexo=" + sexo + ", foto=" + foto + ", telefone=" + telefone + ", email="
+				+ email + ", cep=" + cep + ", logradouro=" + logradouro + ", complemento=" + complemento + ", bairro="
+				+ bairro + ", localidade=" + localidade + ", uf=" + uf + ", unidade=" + unidade + ", salario=" + salario
+				+ "]";
 	}
-	
-	
+
+
 	
 }

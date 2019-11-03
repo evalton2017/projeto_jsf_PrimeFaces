@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import hibernate.br.HibernateUtil;
+import model.UsuarioPessoa;
 
 
 @WebFilter(urlPatterns={"/"})
@@ -28,16 +29,17 @@ public class FilterAutenticacao implements Filter{
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpSession session = req.getSession();
 		
-		String usuarioLogado = (String) session.getAttribute("usuarioLogado");
+		UsuarioPessoa usuarioLogado = (UsuarioPessoa) session.getAttribute("usuarioLogado");
 		
 		String url = req.getServletPath();
 		
-		if(!url.equalsIgnoreCase("/login.jsf") && usuarioLogado == null ||
-				(usuarioLogado != null && usuarioLogado.isEmpty())) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/login.xhtml");
+		if(!url.equalsIgnoreCase("/login.xhtml") && (usuarioLogado != null && usuarioLogado.getId()!=null)) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 			dispatcher.forward(request, response);
 			return;
 		}else {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/login.xhtml");
+			dispatcher.forward(request, response);
 			chain.doFilter(request, response);
 		}
 		

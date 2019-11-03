@@ -93,9 +93,9 @@ public class UsuarioPessoaBean {
 			FacesContext context = FacesContext.getCurrentInstance();
 			ExternalContext externalContext = context.getExternalContext();
 			externalContext.getSessionMap().put("usuarioLogado", user);
-			return "index.xhtml"; 
+			return "/index.xhtml"; 
 		}else {
-			return "login.xhtml";
+			return "/login.xhtml";
 		}
 		
 		
