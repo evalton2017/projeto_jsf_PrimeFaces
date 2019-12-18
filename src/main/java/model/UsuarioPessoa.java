@@ -29,6 +29,7 @@ public class UsuarioPessoa {
 	private String login;
 	private String senha;
 	private String sexo;
+	private String perfil;
 	
 	@Column(columnDefinition= "text")
 	private String foto;
@@ -187,6 +188,15 @@ public class UsuarioPessoa {
 
 	public void setFoto(String foto) {
 		this.foto = foto;
+	}
+		
+
+	public String getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(String perfil) {
+		this.perfil = perfil;
 	}
 
 	@Override

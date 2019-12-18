@@ -1,23 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui">
-<f:view contentType="text/html">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/templates/nav.xhtml">
 
-<p:breadCrumb>
-  	<p:menuitem value="Index" url="index.xhtml" />
-    <p:menuitem value="Usuarios" url="#" />
-    <p:menuitem value="Tecnologia" url="#" />
-</p:breadCrumb>
-
-	<h:head>
-		<f:facet name="first">
-			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
-			<title>Telefone</title>
-		</f:facet>
-	</h:head>
+	<ui:define name="conteudo">
 
 	<h:body>
 			<p:layoutUnit position="north" size="100" resizable="true"
@@ -82,14 +72,8 @@
 			
 			<hr/>
 			
-			<p:layoutUnit position="south" size="100" closable="true"
-				collapsible="true">
-                    Footer
-            </p:layoutUnit>
 
 	</h:body>
 
-</f:view>
-
-
-</html>
+</ui:define>
+</ui:composition>
