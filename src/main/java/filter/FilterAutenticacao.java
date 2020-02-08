@@ -51,4 +51,10 @@ public class FilterAutenticacao implements Filter{
 		HibernateUtil.getEntityManager();
 	}
 
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
