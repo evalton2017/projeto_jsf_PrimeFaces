@@ -156,7 +156,7 @@
 				</p:column>
 
 
-				<p:column width="50">
+				<p:column width="50" rendered="#{usuarioPessoaBean.autorizacaoAcesso('admin')}">
 					<f:facet name="header">Remover</f:facet>
 					<p:commandButton icon="ui-icon-trash"
 						actionListener="#{usuarioPessoaBean.remover}"
@@ -183,9 +183,8 @@
 									width="25" height="25"></h:graphicImage>
 						</p:commandLink>
 					</center>
-				</p:column>			
-				
-				
+				</p:column>		
+						
 			</p:dataTable>
 			
 

@@ -6,6 +6,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -67,6 +73,7 @@ public class UsuarioPessoaBean {
 		userSalario.setLabel(" Grafico Usuarios");
 	}
 	
+	
 	public void salvar() {
 		try{
 			daoPessoa.salvarAtualiza(usuarioPessoa);
@@ -82,6 +89,22 @@ public class UsuarioPessoaBean {
 		}
 	
 	}
+	
+	public String addDias() throws ParseException {
+		Date dataInicioVigencia =new Date("2019/12/31");
+		int i = -1;
+		Calendar c = new GregorianCalendar();
+		c.setTime(dataInicioVigencia);
+		c.add(Calendar.DATE, i);
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        String dataFormatada = dateFormat.format(c.getTime());
+		 
+		String result = dataFormatada.toString();
+		
+		return result;
+	}
+
 	
 	
 	//Autenticação
@@ -99,6 +122,15 @@ public class UsuarioPessoaBean {
 		}
 		
 		
+	}
+	
+	//Autorização
+	public boolean autorizacaoAcesso(String acesso) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = context.getExternalContext();
+		UsuarioPessoa pessoaUser = (UsuarioPessoa) externalContext.getSessionMap().get("usuarioLogado");
+		
+		return pessoaUser.getPerfil().equalsIgnoreCase(acesso);
 	}
 	
 	//Metodo Upload
