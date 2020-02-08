@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+	<f:facet name="first">
+		<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+		<title>Estudo JSF</title>
+	</f:facet>
+</h:head>
+<h:body>
+	<p:growl id="mensagem" />
+
+	<div id="geral">
+		<div id="topo"></div>
+
+		<div id="cabecalho">
+			<h:form>
+				<p:menubar>
+					<p:menuitem label="Home" value="Index" url="index.xhtml" >
+					</p:menuitem>
+					<p:submenu label="Chamado" rendered="false">
+						<p:menuitem value="Abrir">
+						</p:menuitem>
+						<p:menuitem value="Abertos">
+						</p:menuitem>
+					</p:submenu>
+					<p:submenu label="Sair">
+					</p:submenu>
+				</p:menubar>
+			</h:form>
+		</div>
+
+		<div id="conteudo">
+			<ui:insert name="conteudo" />
+		</div>
+
+		<div id="rodape">
+			<p:layoutUnit position="south" size="100" closable="true"
+				collapsible="true">
+                    Footer
+            </p:layoutUnit>
+		</div>
+
+	</div>
+
+
+
+</h:body>
+
+</html>

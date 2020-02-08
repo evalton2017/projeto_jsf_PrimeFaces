@@ -6,16 +6,22 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.DatatypeConverter;
 
@@ -32,6 +38,7 @@ import dao.DaoUsuarioPessoa;
 import dataTableLazy.PesquisaUsuario;
 import model.Email;
 import model.UsuarioPessoa;
+import repository.DaoPessoa;
 
 @ManagedBean(name="usuarioPessoaBean")
 @ViewScoped
@@ -45,6 +52,7 @@ public class UsuarioPessoaBean {
 	private Email email = new Email();
 	private DaoEmail daoEmail = new DaoEmail();
 	private String pesquisa;
+	private DaoPessoa daoRep = new DaoPessoa();
 	
 	@PostConstruct
 	public void init() {
@@ -65,6 +73,7 @@ public class UsuarioPessoaBean {
 		userSalario.setLabel(" Grafico Usuarios");
 	}
 	
+	
 	public void salvar() {
 		try{
 			daoPessoa.salvarAtualiza(usuarioPessoa);
@@ -79,6 +88,49 @@ public class UsuarioPessoaBean {
 			erro.printStackTrace();
 		}
 	
+	}
+	
+	public String addDias() throws ParseException {
+		Date dataInicioVigencia =new Date("2019/12/31");
+		int i = -1;
+		Calendar c = new GregorianCalendar();
+		c.setTime(dataInicioVigencia);
+		c.add(Calendar.DATE, i);
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        String dataFormatada = dateFormat.format(c.getTime());
+		 
+		String result = dataFormatada.toString();
+		
+		return result;
+	}
+
+	
+	
+	//Autenticação
+	public String logado() {
+		
+		UsuarioPessoa user = daoRep.ConsultarUsuario(usuarioPessoa.getLogin(), usuarioPessoa.getSenha());
+		
+		if(user != null) {
+			FacesContext context = FacesContext.getCurrentInstance();
+			ExternalContext externalContext = context.getExternalContext();
+			externalContext.getSessionMap().put("usuarioLogado", user);
+			return "/index.xhtml"; 
+		}else {
+			return "/login.xhtml";
+		}
+		
+		
+	}
+	
+	//Autorização
+	public boolean autorizacaoAcesso(String acesso) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = context.getExternalContext();
+		UsuarioPessoa pessoaUser = (UsuarioPessoa) externalContext.getSessionMap().get("usuarioLogado");
+		
+		return pessoaUser.getPerfil().equalsIgnoreCase(acesso);
 	}
 	
 	//Metodo Upload
